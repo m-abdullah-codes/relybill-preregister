@@ -317,15 +317,34 @@
 
             <!-- CTA -->
             <div class="flex items-center gap-4">
-                <a href="#register" class="btn-premium px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 transition-colors shadow-lg shadow-blue-900/10">
+                <a href="#register" class="hidden md:inline-flex btn-premium px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 transition-colors shadow-lg shadow-blue-900/10">
                     Register Now
                 </a>
                 <!-- Mobile menu button -->
-                <!-- <button type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-900 focus:outline-none">
+                <button type="button" id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300">
                     <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                </button> -->
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden fixed top-[84px] inset-x-4 z-50">
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10 overflow-hidden">
+            <div class="px-5 py-4 flex flex-col divide-y divide-slate-200">
+                <a href="#problem" class="py-3 nav-link">Problem</a>
+                <a href="#solution" class="py-3 nav-link">Solution</a>
+                <a href="#how-it-works" class="py-3 nav-link">How It Works</a>
+                <a href="#growth" class="py-3 nav-link">Growth</a>
+                <a href="#founding-member" class="py-3 nav-link">Founders</a>
+                <a href="#faq" class="py-3 nav-link">FAQ</a>
+                <div class="pt-4">
+                    <a href="#register" class="w-full inline-flex justify-center btn-premium px-5 py-3 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-colors shadow-lg shadow-blue-900/10">
+                        Register Now
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -347,8 +366,8 @@
                         The world's first automated billing platform built for the Fortune 500. We settle 99.9% of invoices instantly using proprietary liquidity pools.
                     </p>
                     <div class="fade-up delay-300 mt-10 flex flex-col sm:flex-row gap-4">
-                        <a href="#" class="btn-premium flex items-center justify-center px-8 py-4 rounded-full bg-slate-900 text-white text-base font-medium transition-all duration-300 w-full sm:w-auto hover:bg-blue-900">
-                            Start Processing
+                        <a href="#register" class="btn-premium flex items-center justify-center px-8 py-4 rounded-full bg-slate-900 text-white text-base font-medium transition-all duration-300 w-full sm:w-auto hover:bg-blue-900">
+                            Pre Register Now
                             <svg class="ml-2 -mr-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </a>
                         <!-- <a href="#" class="flex items-center justify-center px-8 py-4 rounded-full bg-white text-slate-700 text-base font-medium border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-300 shadow-sm w-full sm:w-auto">
@@ -1438,6 +1457,32 @@
                     const y = (window.innerHeight - e.pageY * 2) / 100;
                     // Apply subtle rotation based on mouse position
                     stream.style.transform = `rotateX(20deg) rotateY(-10deg) translateX(${x}px) translateY(${y}px) scale(0.9)`;
+                });
+            }
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                const closeMenu = () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                };
+                const toggleMenu = () => {
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+                    if (isOpen) {
+                        closeMenu();
+                    } else {
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'true');
+                    }
+                };
+                mobileMenuButton.addEventListener('click', toggleMenu);
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMenu);
+                });
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 768) closeMenu();
                 });
             }
         });
