@@ -254,6 +254,123 @@
             width: 100%;
         }
 
+        /* Enhanced Select Dropdown Styles */
+        select.input-field {
+            cursor: pointer;
+            padding-right: 2.5rem;
+            background-image: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        select.input-field:focus {
+            border-bottom-color: #0f172a;
+            outline: none;
+        }
+        
+        select.input-field:focus ~ .input-label {
+            top: -12px;
+            font-size: 0.7rem;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        select.input-field:not([value=""]) ~ .input-label,
+        select.input-field:not(:invalid) ~ .input-label {
+            top: -12px;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        
+        /* Style the select element when it has a value */
+        select.input-field:not([value=""]):not(:focus) {
+            color: #0f172a;
+        }
+        
+        /* Dropdown options styling (limited browser support) */
+        select.input-field option {
+            padding: 14px 20px;
+            background-color: #ffffff;
+            color: #0f172a;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+        
+        select.input-field option:hover {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        select.input-field option:checked,
+        select.input-field option:focus {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        /* Custom dropdown arrow container */
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group select.input-field ~ div {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Custom dropdown arrow styling */
+        .input-group select.input-field ~ div svg {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+            transform-origin: center;
+        }
+        
+        .input-group select.input-field:focus ~ div svg,
+        .input-group select.input-field:active ~ div svg {
+            transform: translateY(-50%) rotate(180deg);
+            color: #3b82f6;
+        }
+        
+        /* Hover effect on select */
+        select.input-field:hover {
+            border-bottom-color: #94a3b8;
+        }
+        
+        /* Responsive dropdown styling */
+        @media (max-width: 768px) {
+            select.input-field {
+                font-size: 0.95rem;
+                padding: 14px 2.5rem 14px 0;
+                min-height: 48px;
+            }
+            
+            select.input-field option {
+                padding: 16px 20px;
+                font-size: 0.9rem;
+                min-height: 52px;
+            }
+            
+            .input-group select.input-field ~ div {
+                top: 24px;
+            }
+        }
+        
+        /* Ensure select doesn't break layout on mobile */
+        @media (max-width: 640px) {
+            select.input-field {
+                width: 100%;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
         /* --- FAQ Accordion Styles (Rs.3.2M Section) --- */
         .faq-item {
             border-bottom: 1px solid rgba(226, 232, 240, 0.8); /* Slate 200 */
@@ -353,17 +470,19 @@
     <main id="top" class="relative z-10 pt-32 pb-16 sm:pt-40 sm:pb-24 lg:pb-32 lg:pt-48 overflow-hidden min-h-screen flex flex-col justify-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+
                 <div class="lg:col-span-7 text-left">
                     <div class="fade-up inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-900 bg-white border border-slate-200 mb-8 shadow-sm">
                         <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mr-3 animate-pulse"></span>
-                        Automated Liquidity v2.0
+                        Automated Recurring Revenue
                     </div>
                     <h1 class="fade-up delay-100 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.05] mb-8">
                         <span class="block">Never chase</span>
                         <span class="text-gradient-premium font-serif-accent italic pr-2">a payment again.</span>
                     </h1>
                     <p class="fade-up delay-200 mt-4 text-lg sm:text-xl text-slate-500 max-w-2xl leading-relaxed font-light">
-                        The world's first automated billing platform built for the Fortune 500. We settle 99.9% of invoices instantly using proprietary liquidity pools.
+                        Pakistan’s first automated subscription billing platform for recurring businesses. 
+                       <br> Relybill powers gyms, academies, and service providers with seamless fee collection, reduced admin work, and predictable recurring revenue.
                     </p>
                     <div class="fade-up delay-300 mt-10 flex flex-col sm:flex-row gap-4">
                         <a href="#register" class="btn-premium flex items-center justify-center px-8 py-4 rounded-full bg-slate-900 text-white text-base font-medium transition-all duration-300 w-full sm:w-auto hover:bg-blue-900">
@@ -375,15 +494,17 @@
                             View Case Study
                         </a> -->
                     </div>
-                    <div class="fade-up delay-400 mt-14 pt-8 border-t border-slate-200 flex items-center gap-10 text-slate-500 text-sm">
+                    <div class="fade-up delay-400 mt-8 lg:mt-14 pt-6 lg:pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center sm:items-center gap-6 sm:gap-8 lg:gap-10 text-slate-500 text-sm col-span-12 lg:col-span-12">
                         <div class="flex items-center gap-3">
-                                <span class="text-3xl font-bold text-slate-900 tracking-tight">Rs.5B</span>
-                            <span class="leading-tight text-xs uppercase tracking-wide text-slate-400 font-semibold">Processes<br>Quarterly Excpected</span>
+                            <!-- <span class="text-3xl font-bold text-slate-900 tracking-tight">Rs.5B</span>
+                            <span class="leading-tight text-xs uppercase tracking-wide text-slate-400 font-semibold">Processes<br>Quarterly Excpected</span> -->
+                            <span class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">100% </span>
+                            <span class="leading-tight text-xs uppercase tracking-wide text-slate-400 font-semibold">Automated<br>FEE COLLECTION</span>
                         </div>
-                        <div class="h-10 w-px bg-slate-200"></div>
+                        <div class="h-px w-10 sm:h-10 sm:w-px bg-slate-200"></div>
                         <div class="flex items-center gap-3">
-                            <span class="text-3xl font-bold text-slate-900 tracking-tight">0.01s</span>
-                            <span class="leading-tight text-xs uppercase tracking-wide text-slate-400 font-semibold">Settlement<br>Latency</span>
+                            <span class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">< 60s</span>
+                            <span class="leading-tight text-xs uppercase tracking-wide text-slate-400 font-semibold">PAYMENT<br>CONFIRMATION</span>
                         </div>
                     </div>
                 </div>
@@ -787,13 +908,13 @@
                         <!-- Row 1 -->
                         <div class="w-[380px] p-4 flex items-center justify-between bg-white border border-slate-200 shadow-sm rounded-sm hover:shadow-md hover:border-blue-200 transition-all duration-500 group cursor-default animate-float-slow">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">JD</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">MA</div>
                                 <div>
                                     <div class="text-xs text-slate-900 font-medium">New Subscriber</div>
-                                    <div class="text-[10px] text-slate-500 font-mono-data">M. Ali • 2km away</div>
+                                    <div class="text-[10px] text-slate-500 font-mono-data">M. Ali • Pro Plan</div>
                                 </div>
                             </div>
-                            <div class="text-sm font-mono-data text-emerald-600">+Rs.120.00</div>
+                            <div class="text-sm font-mono-data text-emerald-600">+Rs.2000.00</div>
                         </div>
 
                         <!-- Row 2 -->
@@ -802,10 +923,10 @@
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">AS</div>
                                 <div>
                                     <div class="text-xs text-slate-900 font-medium">New Subscriber</div>
-                                    <div class="text-[10px] text-slate-500 font-mono-data">Sarah A. • 500m away</div>
+                                    <div class="text-[10px] text-slate-500 font-mono-data">Sarah A. • Basic Plan</div>
                                 </div>
                             </div>
-                            <div class="text-sm font-mono-data text-emerald-600">+Rs.85.00</div>
+                            <div class="text-sm font-mono-data text-emerald-600">+Rs.1500.00</div>
                         </div>
 
                         <!-- Row 3 (Highlighted) -->
@@ -825,25 +946,25 @@
                         <!-- Row 4 -->
                         <div class="w-[360px] p-4 flex items-center justify-between bg-white border border-slate-200 shadow-sm rounded-sm hover:shadow-md hover:border-emerald-200 transition-all duration-500 group cursor-default animate-float-slow translate-x-[-30px]">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">MK</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">MA</div>
                                 <div>
                                     <div class="text-xs text-slate-900 font-medium">New Subscriber</div>
-                                    <div class="text-[10px] text-slate-500 font-mono-data">Mike K. • 1.2km away</div>
+                                    <div class="text-[10px] text-slate-500 font-mono-data">Mahmood Aslam • Pro Plan</div>
                                 </div>
                             </div>
-                            <div class="text-sm font-mono-data text-emerald-600">+Rs.200.00</div>
+                            <div class="text-sm font-mono-data text-emerald-600">+Rs.2000.00</div>
                         </div>
 
                          <!-- Row 5 -->
                         <div class="w-[390px] p-4 flex items-center justify-between bg-white border border-slate-200 shadow-sm rounded-sm hover:shadow-md transition-all duration-500 group cursor-default animate-float-medium">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">ZL</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center text-xs text-slate-600 font-serif-accent italic">AH</div>
                                 <div>
                                     <div class="text-xs text-slate-900 font-medium">New Subscriber</div>
-                                    <div class="text-[10px] text-slate-500 font-mono-data">Zoe L. • 3km away</div>
+                                    <div class="text-[10px] text-slate-500 font-mono-data">Ahsan Hanif • Basic Plan</div>
                                 </div>
                             </div>
-                            <div class="text-sm font-mono-data text-emerald-600">+Rs.60.00</div>
+                            <div class="text-sm font-mono-data text-emerald-600">+Rs.600.00</div>
                         </div>
 
                     </div>
@@ -1074,11 +1195,11 @@
 
                         <!-- Section 2: Contact -->
                         <div class="grid md:grid-cols-2 gap-8">
-                            <div class="input-group">
+                            <!-- <div class="input-group">
                                 <input type="email" id="email" class="input-field" placeholder=" " required>
                                 <label for="email" class="input-label">Email Address *</label>
                                 <div class="input-highlight"></div>
-                            </div>
+                            </div> -->
                             <div class="input-group">
                                 <input type="tel" id="phone" class="input-field" placeholder=" " required>
                                 <label for="phone" class="input-label">Phone Number / WhatsApp *</label>
@@ -1253,7 +1374,7 @@
                         </div>
                         <div class="faq-answer">
                             <p class="pb-6 text-slate-500 font-light leading-relaxed">
-                                We integrate with major Pakistani banks, JazzCash, Easypaisa, and Raast. We also support Credit/Debit Cards, 1Link, Sadapay, Nayapay, and also cash payments for offline transactions.
+                                We will integrate with major Pakistani banks, JazzCash, Easypaisa, and Raast. We will also support Credit/Debit Cards, 1Link, Sadapay, Nayapay, and also cash payments for offline transactions.
                             </p>
                         </div>
                     </div>
@@ -1389,6 +1510,9 @@
                     <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span class="text-xs font-mono-data text-slate-500 uppercase tracking-widest">System Operational</span>
                 </div>
+                <p class="text-xs font-light text-slate-500">
+                    Provided information may vary in future.
+                </p>
             </div>
         </div>
     </footer>
@@ -1507,6 +1631,57 @@
                 answer.style.maxHeight = null;
             }
         }
+
+        // --- Enhanced Select Dropdown Behavior ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectFields = document.querySelectorAll('select.input-field');
+            
+            selectFields.forEach(select => {
+                // Handle label positioning when value is selected
+                const updateLabel = () => {
+                    const label = select.nextElementSibling;
+                    if (label && label.classList.contains('input-label')) {
+                        if (select.value && select.value !== '') {
+                            label.style.top = '-12px';
+                            label.style.fontSize = '0.7rem';
+                            if (!select.matches(':focus')) {
+                                label.style.color = '#64748b';
+                            }
+                        } else {
+                            label.style.top = '12px';
+                            label.style.fontSize = '0.875rem';
+                            label.style.color = '#64748b';
+                        }
+                    }
+                };
+                
+                // Initial check
+                updateLabel();
+                
+                // Update on change
+                select.addEventListener('change', updateLabel);
+                
+                // Update on focus
+                select.addEventListener('focus', () => {
+                    const label = select.nextElementSibling;
+                    if (label && label.classList.contains('input-label')) {
+                        label.style.color = '#3b82f6';
+                        label.style.fontWeight = '600';
+                    }
+                });
+                
+                // Update on blur
+                select.addEventListener('blur', () => {
+                    const label = select.nextElementSibling;
+                    if (label && label.classList.contains('input-label')) {
+                        if (select.value && select.value !== '') {
+                            label.style.color = '#64748b';
+                            label.style.fontWeight = 'normal';
+                        }
+                    }
+                });
+            });
+        });
 
         // --- HIGH-END THREE.JS FLOW FIELD ---
         function initThreeJS() {
