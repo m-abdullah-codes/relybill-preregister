@@ -2156,7 +2156,6 @@
     </script>
 
     <!-- Firebase & Firestore Integration -->
-
     <script type="module">
         // Import Firebase SDK modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
@@ -2183,7 +2182,7 @@
       
         // Initialize App Check (prevents bots)
         initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider('6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1'),
+            provider: new ReCaptchaV3Provider('6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1'), // your site key
             isTokenAutoRefreshEnabled: true
         });
       
@@ -2193,13 +2192,12 @@
         // Form submission handler
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('prereg-form');
-            
             if (!form) return;
       
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
       
-                // Get form values
+                // Collect form data
                 const formData = {
                     name: form.name?.value.trim() || '',
                     businessName: form.business_name?.value.trim() || '',
@@ -2224,18 +2222,6 @@
                 submitButton.innerHTML = 'Submitting...';
       
                 try {
-                    // Execute reCAPTCHA v3
-                    const recaptchaToken = await new Promise((resolve, reject) => {
-                        grecaptcha.ready(() => {
-                            grecaptcha.execute('6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1', { action: 'submit' })
-                                .then(resolve)
-                                .catch(reject);
-                        });
-                    });
-                    
-                    // Add reCAPTCHA token to form data
-                    formData.recaptchaToken = recaptchaToken;
-                    
                     // Save to Firestore
                     await addDoc(collection(db, 'forms'), formData);
       
@@ -2270,6 +2256,7 @@
             });
         });
       </script>
+      
       
     <!-- <script type="module">
         // Import the functions you need from the SDKs you need
