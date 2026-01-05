@@ -297,6 +297,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1"></script>
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2154,7 +2156,122 @@
     </script>
 
     <!-- Firebase & Firestore Integration -->
+
     <script type="module">
+        // Import Firebase SDK modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+        import { 
+            getFirestore, collection, addDoc, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+        import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app-check.js";
+      
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe1FUHnMEXxqgqf_nsjovFghAYAoO4kJc",
+            authDomain: "relybill-preregistrations.firebaseapp.com",
+            projectId: "relybill-preregistrations",
+            storageBucket: "relybill-preregistrations.firebasestorage.app",
+            messagingSenderId: "1087657967260",
+            appId: "1:1087657967260:web:b9c2b54b8e493668e57759",
+            measurementId: "G-9E9VJP95N6"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      
+        // Initialize App Check (prevents bots)
+        initializeAppCheck(app, {
+            provider: new ReCaptchaV3Provider('6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1'),
+            isTokenAutoRefreshEnabled: true
+        });
+      
+        // Initialize Firestore
+        const db = getFirestore(app);
+      
+        // Form submission handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('prereg-form');
+            
+            if (!form) return;
+      
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+      
+                // Get form values
+                const formData = {
+                    name: form.name?.value.trim() || '',
+                    businessName: form.business_name?.value.trim() || '',
+                    phone: form.phone?.value.trim() || '',
+                    businessType: form.business_type?.value || '',
+                    customers: form.customers?.value || '',
+                    challenge: form.challenge?.value.trim() || '',
+                    createdAt: serverTimestamp(),
+                    status: 'pending'
+                };
+      
+                // Validate required fields
+                if (!formData.name || !formData.businessName || !formData.phone || !formData.businessType || !formData.customers) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+      
+                // Disable submit button
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Submitting...';
+      
+                try {
+                    // Execute reCAPTCHA v3
+                    const recaptchaToken = await new Promise((resolve, reject) => {
+                        grecaptcha.ready(() => {
+                            grecaptcha.execute('6Lf2uEAsAAAAAOZjbu99V_WTU9BAqJU7zd9l1Bk1', { action: 'submit' })
+                                .then(resolve)
+                                .catch(reject);
+                        });
+                    });
+                    
+                    // Add reCAPTCHA token to form data
+                    formData.recaptchaToken = recaptchaToken;
+                    
+                    // Save to Firestore
+                    await addDoc(collection(db, 'forms'), formData);
+      
+                    // Reset form
+                    form.reset();
+      
+                    // Show success
+                    submitButton.innerHTML = '✓ Successfully Submitted!';
+                    submitButton.style.backgroundColor = '#10b981';
+      
+                    setTimeout(() => {
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                        submitButton.style.backgroundColor = '';
+                    }, 3000);
+      
+                    console.log('Form submitted successfully.');
+                } catch (err) {
+                    console.error('Error adding document:', err);
+      
+                    submitButton.innerHTML = '✗ Error - Try Again';
+                    submitButton.style.backgroundColor = '#ef4444';
+      
+                    setTimeout(() => {
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                        submitButton.style.backgroundColor = '';
+                    }, 3000);
+      
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        });
+      </script>
+      
+    <!-- <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
@@ -2273,6 +2390,6 @@
                 });
             }
         });
-    </script>
+    </script> -->
 </body>
 </html>
