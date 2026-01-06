@@ -1534,7 +1534,7 @@
                             </div>
                             <div class="input-group">
                                 <input type="text" id="address" class="input-field" placeholder=" " required>
-                                <label for="phone" class="input-label">Business Address *</label>
+                                <label for="address" class="input-label">Business Address *</label>
                                 <div class="input-highlight"></div>
                             </div>
                         </div>
@@ -2219,7 +2219,7 @@
                 if (!formData.name || !formData.businessName || !formData.phone || !formData.address || !formData.businessType || !formData.customers) {
                     alert('Please fill in all required fields.');
                     return;
-                } else if (!formData.phone.length < 11) {
+                } else if (formData.phone.length < 11) {
                     alert('Please enter a valid phone number.');
                     return;
                 }
